@@ -31,6 +31,12 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-int value[];
+ extern int value[];
+ //main functions
 int stack_push(stack_t **front, unsigned int ln);
+int stack_pall(stack_t **stack, unsigned int ln);
+int stack_pint(stack_t **queue, unsigned int ln);
+//external functions not defined yet //
+//add_to_stack
+//add_to_queue
 #endif

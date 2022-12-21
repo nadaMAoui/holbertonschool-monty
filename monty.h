@@ -30,4 +30,7 @@ typedef struct instruction_s
 	char *opcode;
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
+
+int value[];
+int stack_push(stack_t **front, unsigned int ln);
 #endif

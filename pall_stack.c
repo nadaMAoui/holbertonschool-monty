@@ -22,11 +22,11 @@ int print_stack(stack_t **head)
  * @ln: localisation of the opcode(the line number)
  */
 
-void stack_pall(stack_t **stack, unsigned int line)
+void stack_pall(stack_t **stack, unsigned int ln)
 {
 	int done;
-    (void) line;
-	
+    (void) ln;
+
 	done = print_stack(stack);
 	if (done != 0)
 	{

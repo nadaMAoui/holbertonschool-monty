@@ -101,23 +101,6 @@ int check_empty(const char *s)
 	return (1);
 }
 //
-void check_if_push(char *tok_line[], int lineno)
-{
-	if (strcmp(tok_line[0], "push") == 0)
-	{
-		if (tok_line[1][0] != '\0' && check_if_number(tok_line[1]))
-			value[0] = atoi(tok_line[1]);
-		else
-		{
-			printf("L%d: usage: push integer\n", lineno);
-			value[2] = 1;
-			return (0);
-		}
-
-		return (1);
-	}
-}
-//
 void check_argc(int argc)
 {
 	if (argc != 2)
@@ -154,3 +137,4 @@ void tokenize_line(char *s, char *tokens[])
 	}
 
 }
+//

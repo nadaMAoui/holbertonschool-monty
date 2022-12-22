@@ -34,8 +34,10 @@ typedef struct instruction_s
 extern int value[];
 
 void stack_push(stack_t **front, unsigned int ln);
-int stack_pall(stack_t **stack, unsigned int ln);
-void stack_pint(stack_t **queue, unsigned int ln);
+void stack_pall(stack_t **stack, unsigned int ln);
+void stack_pint(stack_t **stack, unsigned int ln);
+void stack_pop(stack_t **stack, unsigned int ln);
+void stack_add(stack_t **stack, unsigned int ln);
 
 int add_to_stack(stack_t **head, int n);
 #endif

@@ -1,5 +1,7 @@
 #include "monty.h"
 #include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 /**
  * delete_stack_head - delete the front of the queue
  */

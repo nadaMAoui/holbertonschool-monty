@@ -100,4 +100,57 @@ int check_empty(const char *s)
 	}
 	return (1);
 }
+//
+void check_if_push(char *tok_line[], int lineno)
+{
+	if (strcmp(tok_line[0], "push") == 0)
+	{
+		if (tok_line[1][0] != '\0' && check_if_number(tok_line[1]))
+			value[0] = atoi(tok_line[1]);
+		else
+		{
+			printf("L%d: usage: push integer\n", lineno);
+			value[2] = 1;
+			return (0);
+		}
 
+		return (1);
+	}
+}
+//
+void check_argc(int argc)
+{
+	if (argc != 2)
+	{
+		printf("USAGE: monty file\n");
+		exit(EXIT_FAILURE);
+	}
+}
+//
+void check_file_stream(FILE *fp, char *filename)
+{
+	if (fp == NULL)
+	{
+		printf("Error: Can't open file %s\n", filename);
+		exit(EXIT_FAILURE);
+	}
+}
+//
+void tokenize_line(char *s, char *tokens[])
+{
+	int i, status;
+	char *token, *hold;
+
+	token = strtok_r(s, " \t\n", &hold);
+	status = check_if_comment(&token);
+	if (status == 1)
+		return (0);
+
+	for (i = 0; token && i < 2; i++)
+	{
+		tokens[i] = token;
+
+		token = strtok_r(NULL, " \t\n", &hold);
+	}
+
+}

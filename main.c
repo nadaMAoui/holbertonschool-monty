@@ -4,10 +4,10 @@
 #include <string.h>
 #include <stdlib.h>
 /**
- * main - Interpreter of the Monty Language
- * @argc: argument count
- * @argv: the list of arguments
- * Return: 1 if passed
+ * main - file to interpret the monty language
+ * @argc: anumber of arguments
+ * @argv: argument list
+ * Return: 1 sucess 0 failed
  */
 
 int main(int argc, char *argv[])

@@ -10,9 +10,9 @@ unsigned int line_number = 0;
  */
 int main(int argc, char *argv[])
 {
-	char **tokens = NULL; /* for tokenized list */
-	stack_t *head = NULL; /* pointer to top of stack */
-	char *buffer = NULL; /* store getline */
+	char **tokens = NULL;
+	stack_t *head = NULL;
+	char *buffer = NULL;
 	FILE *fp;
 	size_t n;
 
@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 	while ((getline(&buffer, &n, fp)) != -1)
 	{
 		line_number++;
-		tokens = tokenize(buffer); /* result is at top of list */
+		tokens = tokenize(buffer);
 		if (tokens)
 		{
 			call(tokens, &head);

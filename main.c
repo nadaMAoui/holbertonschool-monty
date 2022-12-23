@@ -1,53 +1,67 @@
 #include "monty.h"
-#include <stdio.h>
-#include <stddef.h>
-#include <string.h>
-#include <stdlib.h>
-/**
- * main - file to interpret the monty language
- * @argc: anumber of arguments
- * @argv: argument list
- * Return: 1 sucess 0 failed
- */
 
+unsigned int line_number = 0;
+
+/**
+ * main - control program flow
+ * @argc: argument count
+ * @argv: argument list
+ * Return: Nothing
+ */
 int main(int argc, char *argv[])
 {
-	char *path, *line, *tok_line[2];
+	char **tokens = NULL;
+	stack_t *head = NULL;
+	char *buffer = NULL;
 	FILE *fp;
-	void (*fptr)(stack_t **stack, unsigned int ln);
-	stack_t *head;
-	size_t len, lineno, status;
-	ssize_t read;
+	size_t n;
 
-	head = NULL;
-	line = NULL;
-	check_argc(argc);
-	path = argv[1];
-
-	fp = fopen(path, "r");
-	check_file_stream(fp, path);
-	for (lineno = 1; (read = getline(&line, &len, fp)) != -1; lineno++)
+	if (argc != 2)
 	{
-		if (check_empty(line))
-			continue;
-		status = tokenize_line(line, tok_line);
-		if (status == 0)
-			continue;
-
-		check_if_push(tok_line, lineno);
-		check_fail(line, fp, head);
-		check_data_structure(tok_line[0]);
-		fptr = get_opcode_func(tok_line[0]);
-		check_opcode(fptr, lineno, tok_line[0]);
-		check_fail(line, fp, head);
-
-		(*fptr)(&head, lineno);
-		check_fail(line, fp, head);
-		clear_strings(tok_line);
+		fprintf(stderr, "USAGE: monty file\n");
+		exit(EXIT_FAILURE);
 	}
-	free(line);
-	fclose(fp);
-	free_stack(head);
 
+	fp = fopen(argv[1], "r+");
+	if (fp == NULL)
+	{
+		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
+		exit(EXIT_FAILURE);
+	}
+
+	while ((getline(&buffer, &n, fp)) != -1)
+	{
+		line_number++;
+		tokens = tokenize(buffer); /* result is at top of list */
+		if (tokens)
+		{
+			call(tokens, &head);
+			free(tokens);
+		}
+	}
+	free(buffer);
+	free_stack(&head);
+	fclose(fp);
 	return (0);
+}
+
+/**
+ * free_stack - free the stack
+ * @stack: ptr to stack
+ * Return: Nothing
+ */
+void free_stack(stack_t **stack)
+{
+	stack_t *head = *stack;
+
+	while (head)
+	{
+		if (!head->next)
+		{
+			free(head);
+			break;
+		}
+		head = head->next;
+		free(head->prev);
+	}
 }

@@ -1,68 +1,59 @@
-#include "monty.h"
+#ifndef _MONTY_H_
+#define _MONTY_H_
 
-unsigned int line_number = 0;
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <ctype.h>
 
-/**
- * main - control program flow
- * @argc: argument count
- * @argv: argument list
- * Return: Nothing
- */
-int main(int argc, char *argv[])
-{
-	char **tokens = NULL;
-	stack_t *head = NULL;
-	char *buffer = NULL;
-	FILE *fp;
-	size_t n;
-
-	if (argc != 2)
-	{
-		fprintf(stderr, "USAGE: monty file\n");
-		exit(EXIT_FAILURE);
-	}
-
-	fp = fopen(argv[1], "r+");
-	if (fp == NULL)
-	{
-		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
-		exit(EXIT_FAILURE);
-	}
-
-	while ((getline(&buffer, &n, fp)) != -1)
-	{
-		line_number++;
-		tokens = tokenize(buffer); /* result is at top of list */
-		if (tokens)
-		{
-			call(tokens, &head);
-			free(tokens);
-		}
-	}
-	free(buffer);
-	free_stack(&head);
-	fclose(fp);
-
-	return (0);
-}
+extern unsigned int line_number;
 
 /**
- * free_stack - free the stack
- * @stack: ptr to stack
- * Return: Nothing
+ * struct stack_s - doubly linked list representation of a stack (or queue)
+ * @n: integer
+ * @prev: points to the previous element of the stack (or queue)
+ * @next: points to the next element of the stack (or queue)
+ *
+ * Description: doubly linked list node structure
+ * for stack, queues, LIFO, FIFO Holberton project
  */
-void free_stack(stack_t **stack)
+typedef struct stack_s
 {
-	stack_t *head = *stack;
+	int n;
+	struct stack_s *prev;
+	struct stack_s *next;
+} stack_t;
 
-	while (head)
-	{
-		if (!head->next)
-		{
-			free(head);
-			break;
-		}
-		head = head->next;
-		free(head->prev);
-	}
-}
+
+/**
+ * struct instruction_s - opcode and its function
+ * @opcode: the opcode
+ * @f: function to handle the opcode
+ *
+ * Description: opcode and its function
+ * for stack, queues, LIFO, FIFO Holberton project
+ */
+typedef struct instruction_s
+{
+	char *opcode;
+	void (*f)(stack_t **stack, unsigned int line_number);
+} instruction_t;
+
+stack_t *build_list(stack_t *head);
+void call(char **tokens, stack_t **stack);
+char **tokenize(char *buffer);
+stack_t *add_node_start(stack_t *h, int n);
+void _push(stack_t **stack, unsigned int n);
+void _pall(stack_t **stack, unsigned int n);
+void _swap(stack_t **stack, unsigned int line_number);
+void _add(stack_t **stack, unsigned int line_number);
+void _pint(stack_t **stack, unsigned int line_number);
+void _nop(stack_t **stack, unsigned int line_number);
+void _pop(stack_t **stack, unsigned int line_number);
+void is_valid(char **token, stack_t **stack);
+void free_stack(stack_t **stack);
+
+#endif

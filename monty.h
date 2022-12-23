@@ -10,9 +10,9 @@ unsigned int line_number = 0;
  */
 int main(int argc, char *argv[])
 {
-	char **tokens = NULL; /* for tokenized list */
-	stack_t *head = NULL; /* pointer to top of stack */
-	char *buffer = NULL; /* store getline */
+	char **tokens = NULL;
+	stack_t *head = NULL;
+	char *buffer = NULL;
 	FILE *fp;
 	size_t n;
 
